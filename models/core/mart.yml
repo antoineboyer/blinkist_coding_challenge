@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: mart1
+    columns: 
+      - name: nb_users
+        tests:
+          - not_null
+
+  - name: mart2
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
