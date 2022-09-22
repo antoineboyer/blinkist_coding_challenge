@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: blinkist
+    database: dbtworkshop
+    schema: blinkist
+    tables:
+      - name: user_fact
+      - name: daily_web_activity
+      - name: daily_app_activity 
