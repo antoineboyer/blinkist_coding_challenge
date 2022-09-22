@@ -6,7 +6,7 @@ You can interact with the Blinkist product via the web and the app. Given the fo
 
 | user_fact    | type      | description                         |
 |--------------|-----------|-------------------------------------|
-| user_id      | varchar   | id of the                           |
+| user_id      | varchar   | id of the user                      |
 | created_at   | timestamp | time the user was created           |
 | country_code | varchar   | country of the user in code alpha-2 |
 
