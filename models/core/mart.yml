@@ -2,12 +2,14 @@ version: 2
 
 models:
   - name: mart1
+    description: The number of users newly created in the last two weeks within the DACH region. 
     columns: 
       - name: nb_users
         tests:
           - not_null
 
   - name: mart2
+    description: All users being active at least once in any form (web or app) in the last 2 weeks who became Blinkist users in 2021.
     columns:
       - name: user_id
         tests:
