@@ -6,5 +6,31 @@ sources:
     schema: blinkist
     tables:
       - name: user_fact
+        description: Raw customers data.
+        columns:
+          - name: user_id
+            description: id of the user
+          - name: created_at
+            description: time the user was created
+          - name: country_code
+            description: country of the user in code alpha-2
       - name: daily_web_activity
-      - name: daily_app_activity 
+        description: Raw daily web activity.
+        columns:
+          - name: user_id
+            description: id of the user
+          - name: web_activity_date
+            description: date the user was active
+          - name: n_sessions
+            description: number of session a user started
+      - name: daily_app_activity
+        description: Raw daily app activity.
+        columns:
+          - name: user_id
+            description: id of the user
+          - name: app_activity_date
+            description: date the user was active
+          - name: units_bib_audio
+            description: number of session a user started      
+          - name: units_shortcuts
+            description: number of shortcut units consumed by a user    
