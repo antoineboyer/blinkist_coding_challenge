@@ -5,17 +5,20 @@ To be written
 """
 
 import os
+import json
+from datetime import datetime
 
 import requests
 import boto3
 
 OPEN_EXCHANGE_API_URL = "https://openexchangerates.org/api/"
+BUCKET_NAME = "blinkistchallenge"
 
 
 class OpenExchangeRatesApiFetcher:
     def __init__(self) -> None:
         self._base_url = OPEN_EXCHANGE_API_URL
-        self._auth = os.environ["APP_ID"]
+        self._auth = "605b5617fae04483a3232a73b56b15f4" or os.environ["appid"]
 
     def call_api(self, method: str, url: str) -> dict:
         """make a call to the API
@@ -40,6 +43,7 @@ class OpenExchangeRatesApiFetcher:
 
     def get_current_exchange(self) -> dict:
         """Get the latest exchange rates available from the Open Exchange Rates API.
+           Not doing it for EUR base as it is not part of the free subscription plan.
         Returns
         -------
         list
@@ -50,7 +54,22 @@ class OpenExchangeRatesApiFetcher:
 
 
 class OpenExchangeRatesApiPusher:
-    def __init__(self) -> None:
-        pass
-        # s3 = boto3.resource('s3')
-        # s3.Bucket('blinkistchallenge').put_object(Key='my/key/including/anotherfilename.txt', Body='test')
+    def __init__(self, data: dict) -> None:
+        self.data = data
+
+    def push_current_exchange_to_s3(self) -> None:
+        """_summary_"""
+        s3 = boto3.resource("s3")
+        exchange_datetime = (datetime.fromtimestamp(self.data["timestamp"])).strftime(
+            "%Y_%m_%d_%H_%M_%S"
+        )
+        key = f"exchange_rates_{exchange_datetime}.json"
+        body = json.dumps(self.data)
+        s3.Bucket(BUCKET_NAME).put_object(Key=key, Body=body)
+
+
+def handler(event, context) -> None:
+    # pulling the data from openexchangerates.org
+    data = OpenExchangeRatesApiFetcher().get_current_exchange()
+    # saving the data in S3
+    OpenExchangeRatesApiPusher(data=data).push_current_exchange_to_s3()
