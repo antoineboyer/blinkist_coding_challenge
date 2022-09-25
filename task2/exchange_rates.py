@@ -1,5 +1,5 @@
-"""Defines a fetcher to get the latest exchange rates available from the Open Exchange Rates API
-and a pusher to push the result to S3.
+"""Defines two classes: One to get the latest exchange rates available from the Open Exchange Rates API
+and one to push the result to S3.
 """
 
 import os
@@ -41,7 +41,7 @@ class OpenExchangeRatesApiFetcher:
 
     def get_current_exchange(self) -> dict:
         """Get the latest exchange rates available from the Open Exchange Rates API.
-           Not doing it for EUR base as it is not part of the free subscription plan.
+           Has not been done for EUR base as it is not part of the free subscription plan.
         Returns
         -------
         list

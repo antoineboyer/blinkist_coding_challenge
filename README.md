@@ -35,11 +35,20 @@ Please write in dbt (preferred) or plain sql queries that return:
 
 Assume we use Redshift as DB.
 
-### Answers of Task 1
+## Steps of Task 1
+- Setup a Redshift instance on AWS.
+- Create a schema called `blinkist` and the specified source tables in Redshift.
+- Setup a dbt project using DBT Cloud and connect it to Redshift.
+- Create [sources](./task1/models/core/scr_blinkist.yml) and [models](./task1/models/core/) (marts).
+- Write [documentations](./task1/models/core/scr_blinkist.yml) and [tests](./task1/models/core/mart.yml).
+- Run the following commands to deploy, document and test the dbt project:
+    ```
+    dbt docs generate
+    dbt test
+    dbt run
+    ```
 
-I reproduced a minimalist DBT project. I included some [documentations](./task1/models/core/scr_blinkist.yml) and some [tests](./task1/models/core/mart.yml). The SQL queries are under [models/core](./task1/models/core/).
-
-### Task 2
+## Task 2
 
 To retrieve the latest exchange rates we query the [opendexchangerates api](https://docs.openexchangerates.org/docs/latest-json).  
 
@@ -69,9 +78,14 @@ Please create a lambda function using the [serverless framework](https://www.ser
 
 To share your results please use a repository on Github or Gitlab and send us the link. We are looking forward to your solution. :)
 
-### Answers of Task 2
-Following, the commands to create and deploy the lambda function:
-```
-sls plugin install -n serverless-python-requirements
-sls deploy
-```
+## Steps of Task 2
+- Create a Serveless account and connect it to the AWS account.
+- Create a S3 bucket called `blinkistchallenge`.
+- Create an OpenExchangeRates account, generate the API credential (app id) and store it in the parameter store (encrypted).
+- Write python classes to pull from the API and push to S3 current exchange rates.
+- Configure the lambda through [serverless.yml](./task2/serverless.yml) (permissions, credentials, cron, requirements)
+- Run the following commands to deploy the lambda function:
+    ```
+    sls plugin install -n serverless-python-requirements
+    sls deploy
+    ```
