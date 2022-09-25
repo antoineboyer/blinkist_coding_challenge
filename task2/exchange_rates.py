@@ -1,7 +1,5 @@
-"""Fetch the latest exchange rates available from the Open Exchange Rates API.
-Examples
---------
-To be written
+"""Defines a fetcher to get the latest exchange rates available from the Open Exchange Rates API
+and a pusher to push the result to S3.
 """
 
 import os
@@ -18,7 +16,7 @@ BUCKET_NAME = "blinkistchallenge"
 class OpenExchangeRatesApiFetcher:
     def __init__(self) -> None:
         self._base_url = OPEN_EXCHANGE_API_URL
-        self._auth = "605b5617fae04483a3232a73b56b15f4" or os.environ["appid"]
+        self._auth = "605b5617fae04483a3232a73b56b15f4" or os.environ["APP_ID"]
 
     def call_api(self, method: str, url: str) -> dict:
         """make a call to the API
@@ -58,18 +56,17 @@ class OpenExchangeRatesApiPusher:
         self.data = data
 
     def push_current_exchange_to_s3(self) -> None:
-        """_summary_"""
+        """push the current exchange to S3
+        Returns
+        -------
+        dict
+            dictionnary with metadata
+        """
         s3 = boto3.resource("s3")
+        # compute the current exchange time
         exchange_datetime = (datetime.fromtimestamp(self.data["timestamp"])).strftime(
             "%Y_%m_%d_%H_%M_%S"
         )
         key = f"exchange_rates_{exchange_datetime}.json"
         body = json.dumps(self.data)
-        s3.Bucket(BUCKET_NAME).put_object(Key=key, Body=body)
-
-
-def handler(event, context) -> None:
-    # pulling the data from openexchangerates.org
-    data = OpenExchangeRatesApiFetcher().get_current_exchange()
-    # saving the data in S3
-    OpenExchangeRatesApiPusher(data=data).push_current_exchange_to_s3()
+        return s3.Bucket(BUCKET_NAME).put_object(Key=key, Body=body)

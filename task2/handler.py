@@ -7,5 +7,5 @@ def handle(event, context) -> dict:
     # saving the data in S3
     OpenExchangeRatesApiPusher(data=data).push_current_exchange_to_s3()
     return {
-        "message": "The function executed successfully!",
+        "message": "The current exchange rates has been successfully upload to S3",
     }
