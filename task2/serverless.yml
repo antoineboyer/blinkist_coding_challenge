@@ -6,7 +6,15 @@ provider:
   runtime: python3.8
   stage: dev
   region: us-east-1
-
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+          Resource:
+            - 'arn:aws:s3:::blinkistchallenge/*'
 
 functions:
   current-exchange:
@@ -17,4 +25,9 @@ functions:
         # every Monday at 03:15 AM
       - schedule: cron(15 3 ? * MON *)
 
+custom:
+  pythonRequirements:
+    dockerizePip: true
 
+plugins:
+  - serverless-python-requirements
