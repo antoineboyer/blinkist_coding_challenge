@@ -35,6 +35,10 @@ Please write in dbt (preferred) or plain sql queries that return:
 
 Assume we use Redshift as DB.
 
+### Answers of Task 1
+
+I reproduced a minimalist DBT project. I included some [documentations](./task1/models/core/scr_blinkist.yml) and some [tests](./task1/models/core/mart.yml). The SQL queries are under [models/core](./task1/models/core/).
+
 ### Task 2
 
 To retrieve the latest exchange rates we query the [opendexchangerates api](https://docs.openexchangerates.org/docs/latest-json).  
@@ -64,3 +68,10 @@ The result looks like this:
 Please create a lambda function using the [serverless framework](https://www.serverless.com/framework/docs/providers/aws/guide/functions) that queries the latest exchange rates for base EUR and saves the result as json to a bucket on S3.
 
 To share your results please use a repository on Github or Gitlab and send us the link. We are looking forward to your solution. :)
+
+### Answers of Task 2
+Following, the commands to create and deploy the lambda function:
+```
+sls plugin install -n serverless-python-requirements
+sls deploy
+```
